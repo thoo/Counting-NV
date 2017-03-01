@@ -4,6 +4,8 @@ heroku git:remote -a count-nv
 
 git add .
 git commit -am "Original"
+
+# Make sure runtime.txt and requirements.txt exist.
 git push heroku master
 heroku scale web=1
 

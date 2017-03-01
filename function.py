@@ -29,7 +29,7 @@ Bokeh.set_log_level("info");
 """
 
 
-def GDP_PCA_plot(filename=None,threshold=0.025):
+def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10):
     data = np.load('uploads/'+filename)
 
 
@@ -39,7 +39,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025):
     H1 = gaussian_filter(image2,0.08*np.std(image2), mode='constant')
     blobs_log = blob_log(H1, max_sigma=0.3*np.std(H1), num_sigma=10, threshold=threshold)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
-    blobs=blobs_log[blobs_log[:,2]>3.0]
+    blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
     xx=(data.f.X.min(),np.round(data.f.X.max(),-1))
     yy=(data.f.Y.min(),np.round(data.f.Y.max(),-1))
     x_step=(xx[1]-xx[0])/np.shape(H1)[0]

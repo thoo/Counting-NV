@@ -28,11 +28,20 @@
 
                   <p>
                   </p>
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                    <div class="input-group-addon">{{form.threshold.label}}</div>
+                  <div class="input-group mb-2 mr-0 mb-0">
+                    <div class="input-group-addon">{{form.threshold.label(class_="btn btn-outline-primary btn-sm")}}</div>
                     {{ form.threshold(class_="form-control") }}
                   </div>
-                  
+
+                  <div class="input-group mb-2 mr-0 mb-0">
+                    <div class="input-group-addon">{{form.lowerbound.label(class_="btn btn-outline-primary btn-sm")}}</div>
+                    {{ form.lowerbound(class_="form-control") }}
+                  </div>
+                  <div class="input-group mb-2 mr-0 mb-0">
+                  <div class="input-group-addon">{{form.upperbound.label(class_="btn btn-outline-primary btn-sm")}}</div>
+                    {{ form.upperbound(class_="form-control") }}
+                  </div>
+
 
 
 
