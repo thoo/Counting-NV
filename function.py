@@ -46,7 +46,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10):
     y_step=(yy[1]-yy[0])/np.shape(H1)[1]
     total=len(blobs)
     per_nv=round(len(blobs)/float(xx[1]-xx[0]),2)
-    t=[filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per Pixel square = '+str(per_nv)]
+    t=['Filename = '+filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per Pixel square = '+str(per_nv)]
 
     data_list=[image1,H1,H1]
     color_list=[Viridis256,cc.b_linear_bgy_10_95_c74,cc.b_linear_bgy_10_95_c74]

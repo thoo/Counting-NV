@@ -49,7 +49,7 @@ class UploadForm(FlaskForm):
 def index():
 
     form = UploadForm()
-    #filename = None
+    filename = 'image003.npz'
 
     if request.method == 'POST' and form.validate_on_submit():
 
@@ -66,7 +66,7 @@ def index():
                 #return redirect(url_for('index'))
                 #return redirect(url_for('checknv'))
     else:
-        result = None
+        result =  GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data)
 
 
     return render_template('view_2_1.html', form=form,
