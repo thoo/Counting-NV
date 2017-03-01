@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+
+   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/paper/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+    {{ result[0]|safe }}
+</head>
+<body>
+<div class="container">
+
+  <h4> Counting Nitrogen Vacancy Centers from 2D Density Plot</h4>
+  <hr>
+  <h5> Import Data File  </h5>
+
+
+
+
+
+              <form  class="form-inline" action="" method="post" enctype="multipart/form-data">
+                  {{ form.hidden_tag() }}
+                  {{ form.file (class_="custom-file-input",type_="file")}}
+
+                  <p>
+                  </p>
+                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                    <div class="input-group-addon">{{form.threshold.label}}</div>
+                    {{ form.threshold(class_="form-control") }}
+                  </div>
+                  
+
+
+
+                  <p>
+                  </p>
+                  {{ form.submit(class_="btn btn-primary") }}
+                  <p>
+                  </p>
+
+
+
+
+
+
+
+
+
+</div>
+</form>
+<div class="container">
+{% if result != None %}
+<p>
+
+<!-- script and div elements for Bokeh plot -->
+{% for item in result[1:] %}
+{{ item[0]|safe }}
+{{ item[1]|safe }}
+{% endfor %}
+</p>
+{% endif %}
+
+</div>
+
+
+</body>
+</html>

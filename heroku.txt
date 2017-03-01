@@ -1,0 +1,11 @@
+heroku apps:create count-nv
+git init
+heroku git:remote -a count-nv
+
+git add .
+git commit -am "Original"
+git push heroku master
+heroku scale web=1
+
+$ heroku addons:add custom_domains
+$ heroku domains:add www.mydomainname.com
