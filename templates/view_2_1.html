@@ -34,6 +34,11 @@
                   </div>
 
                   <div class="input-group mb-2 mr-0 mb-0">
+                  <div class="input-group-addon">{{form.blur_factor.label(class_="btn btn-outline-primary btn-sm")}}</div>
+                    {{ form.blur_factor(class_="form-control") }}
+                  </div>
+
+                  <div class="input-group mb-2 mr-0 mb-0">
                     <div class="input-group-addon">{{form.lowerbound.label(class_="btn btn-outline-primary btn-sm")}}</div>
                     {{ form.lowerbound(class_="form-control") }}
                   </div>
@@ -41,6 +46,8 @@
                   <div class="input-group-addon">{{form.upperbound.label(class_="btn btn-outline-primary btn-sm")}}</div>
                     {{ form.upperbound(class_="form-control") }}
                   </div>
+
+
 
 
 

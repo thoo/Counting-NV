@@ -40,6 +40,7 @@ class UploadForm(FlaskForm):
     threshold = FloatField(label='Threshold', default=0.025,validators=[validators.InputRequired()])
     lowerbound = FloatField(label='Lower Limit for NV diameter', default=0.0,validators=[validators.InputRequired()])
     upperbound = FloatField(label='Upper Limit for NV diameter', default=1.0e10,validators=[validators.InputRequired()])
+    blur_factor = FloatField(label='Blur Factor for Smoothing', default=0.06,validators=[validators.InputRequired()])
     submit = SubmitField()
 
 
@@ -59,14 +60,14 @@ def index():
                 filename = secure_filename(form.file.data.filename)
                 form.file.data.save('uploads/' + filename)
 
-                print(filename)
-                print(form.threshold.data)
+                #print(filename)
+                #print(form.threshold.data)
 
                 result = GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data)
                 #return redirect(url_for('index'))
                 #return redirect(url_for('checknv'))
     else:
-        result =  GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data)
+        result =  GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data,form.blur_factor.data)
 
 
     return render_template('view_2_1.html', form=form,

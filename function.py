@@ -10,7 +10,7 @@ from skimage.feature import blob_log
 import colorcet as cc
 from bokeh.plotting import figure
 from bokeh.io import show
-
+import itertools
 from bokeh.palettes import Viridis3, Viridis256,brewer
 from bokeh.models import LogColorMapper,LinearColorMapper,ColorBar,LogTicker,ColorMapper
 TOOLS="crosshair,pan,wheel_zoom,box_zoom,reset,hover,save"
@@ -29,14 +29,14 @@ Bokeh.set_log_level("info");
 """
 
 
-def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10):
+def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,factor=0.06):
     data = np.load('uploads/'+filename)
 
 
     image1=data.f.image#-np.median(data.f.image)
     image2=np.array(image1*255/image1.max(),dtype='uint8')
     #H1=cv2.GaussianBlur(image2,(3,3),1.0*np.std(image2))
-    H1 = gaussian_filter(image2,0.08*np.std(image2), mode='constant')
+    H1 = gaussian_filter(image2,factor*np.std(image2), mode='constant')
     blobs_log = blob_log(H1, max_sigma=0.3*np.std(H1), num_sigma=10, threshold=threshold)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
     blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
@@ -44,15 +44,31 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10):
     yy=(data.f.Y.min(),np.round(data.f.Y.max(),-1))
     x_step=(xx[1]-xx[0])/np.shape(H1)[0]
     y_step=(yy[1]-yy[0])/np.shape(H1)[1]
+
+    #Number of NV
     total=len(blobs)
     per_nv=round(len(blobs)/float(xx[1]-xx[0]),2)
+    ########################################################
     t=['Filename = '+filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per Pixel square = '+str(per_nv)]
 
     data_list=[image1,H1,H1]
     color_list=[Viridis256,cc.b_linear_bgy_10_95_c74,cc.b_linear_bgy_10_95_c74]
     return_list=[]
     return_list.append(head)
-
+    #hover tool hack to work for image function in bokeh.
+    ##http://stackoverflow.com/questions/28176949/convert-list-of-tuples-to-structured-numpy-array
+    px=np.linspace(xx[0],xx[1],np.shape(H1)[0]/2)
+    py=np.linspace(yy[0],yy[1],np.shape(H1)[1]/2)
+    px=np.array(px,dtype='uint32')
+    py=np.array(py,dtype='uint32')
+    a=[]
+    for i in px:
+        a.extend(zip(itertools.repeat(i),py))
+    dt=np.dtype('int,float')
+    X=np.array(a,dtype=dt)
+    x1=X['f0']
+    y1=X['f1']
+    ##################################################################
     for i in range(3):
         color_mapper = LogColorMapper(palette=color_list[i], \
                               low=np.median(data_list[i]), \
@@ -68,6 +84,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10):
 
         p1 = figure(plot_width=600, plot_height=600,title=t[i],\
                     x_range=xx,y_range=xx,tools=TOOLS,toolbar_location="below",toolbar_sticky=False,responsive=True)
+        p1.square(x1,y1,alpha=1.0)
         p1.image(image=[data_list[i]],color_mapper=color_mapper,
                     dh=yy[1]-yy[0], dw=xx[1]-xx[0], x=xx[0], y=xx[0])
         p1.add_layout(color_bar, 'right')
