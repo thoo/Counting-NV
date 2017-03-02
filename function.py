@@ -37,7 +37,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,fa
     image2=np.array(image1*255/image1.max(),dtype='uint8')
     #H1=cv2.GaussianBlur(image2,(3,3),1.0*np.std(image2))
     H1 = gaussian_filter(image2,factor*np.std(image2), mode='constant')
-    blobs_log = blob_log(H1, max_sigma=0.3*np.std(H1), num_sigma=10, threshold=threshold)
+    blobs_log = blob_log(H1, max_sigma=0.3*np.std(H1), num_sigma=20, threshold=threshold)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
     blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
     xx=(data.f.X.min(),np.round(data.f.X.max(),-1))
@@ -46,10 +46,12 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,fa
     y_step=(yy[1]-yy[0])/np.shape(H1)[1]
 
     #Number of NV
+    height=yy[1]-yy[0]
+    width=xx[1]-xx[0]
     total=len(blobs)
-    per_nv=round(len(blobs)/float(xx[1]-xx[0]),2)
+    per_nv=round(len(blobs)/float(height*width)*(20*20),2)
     ########################################################
-    t=['Filename = '+filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per Pixel square = '+str(per_nv)]
+    t=['Filename = '+filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per 20x20 pixel area = '+str(per_nv)]
 
     data_list=[image1,H1,H1]
     color_list=[Viridis256,cc.b_linear_bgy_10_95_c74,cc.b_linear_bgy_10_95_c74]
