@@ -37,7 +37,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,fa
     image2=np.array(image1*255/image1.max(),dtype='uint8')
     #H1=cv2.GaussianBlur(image2,(3,3),1.0*np.std(image2))
     H1 = gaussian_filter(image2,factor*np.std(image2), mode='constant')
-    blobs_log = blob_log(H1, max_sigma=0.3*np.std(H1), num_sigma=20, threshold=threshold)
+    blobs_log = blob_log(image2, max_sigma=0.3*np.std(image2), num_sigma=20, threshold=threshold)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
     blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
     xx=(data.f.X.min(),np.round(data.f.X.max(),-1))
