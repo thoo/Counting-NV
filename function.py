@@ -9,6 +9,7 @@ from scipy.ndimage.filters import gaussian_filter
 from skimage.feature import blob_log
 import colorcet as cc
 from bokeh.plotting import figure
+from bokeh.charts import Histogram
 from bokeh.io import show
 import itertools
 from bokeh.palettes import Viridis3, Viridis256,brewer
@@ -29,7 +30,7 @@ Bokeh.set_log_level("info");
 """
 
 
-def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,factor=0.06):
+def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,factor=0.06):
     data = np.load('uploads/'+filename)
 
 
@@ -109,6 +110,15 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=0.0,upperbound=1e10,fa
 
 
         return_list.append(list(tuple_plot))
+
+    p=Histogram(blobs[:,2],\
+            plot_width=600, plot_height=600,tools=TOOLS,\
+            toolbar_location="below",toolbar_sticky=False,\
+            responsive=True,\
+            title="Distribution of Radii of NV Centers")
+
+    return_list.append(list(components(p)))
+
 
 
     return return_list
