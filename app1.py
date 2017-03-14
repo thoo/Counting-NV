@@ -1,12 +1,10 @@
-from output_form1 import DemoForm
+from output_form1 import UploadForm
 from flask import Flask, render_template, request,url_for, redirect
 from function  import GDP_PCA_plot
 import sys, os, inspect
 from werkzeug.contrib.fixers import ProxyFix
 from werkzeug import secure_filename
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField,FileRequired,FileAllowed
-from wtforms import FloatField, validators,SubmitField
+
 
 app = Flask(__name__)
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -35,13 +33,7 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-class UploadForm(FlaskForm):
-    file = FileField(default='image004.npz',validators=[FileRequired(),FileAllowed(['npz'], 'NPZ only!')])
-    threshold = FloatField(label='Threshold', default=0.025,validators=[validators.InputRequired()])
-    lowerbound = FloatField(label='Lower Limit for NV Radius', default=2.5,validators=[validators.InputRequired()])
-    upperbound = FloatField(label='Upper Limit for NV Radius', default=1.0e4,validators=[validators.InputRequired()])
-    blur_factor = FloatField(label='Blur Factor for Smoothing', default=0.06,validators=[validators.InputRequired()])
-    submit = SubmitField()
+
 
 
 
@@ -50,7 +42,7 @@ class UploadForm(FlaskForm):
 def index():
 
     form = UploadForm()
-    filename = 'image003.npz'
+    filename = 'image004.npz'
 
     if request.method == 'POST' and form.validate_on_submit():
 
@@ -60,12 +52,9 @@ def index():
                 filename = secure_filename(form.file.data.filename)
                 form.file.data.save('uploads/' + filename)
 
-                #print(filename)
-                #print(form.threshold.data)
 
                 result = GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data)
-                #return redirect(url_for('index'))
-                #return redirect(url_for('checknv'))
+
     else:
         result =  GDP_PCA_plot(filename,form.threshold.data,form.lowerbound.data,form.upperbound.data,form.blur_factor.data)
 

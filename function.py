@@ -37,10 +37,11 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,f
     image1=data.f.image#-np.median(data.f.image)
     image2=np.array(image1*255/image1.max(),dtype='uint8')
     #H1=cv2.GaussianBlur(image2,(3,3),1.0*np.std(image2))
-    H1 = gaussian_filter(image2,factor*np.std(image2), mode='constant')
+    H1 = gaussian_filter(image2,factor*np.std(image2), mode='nearest')
     blobs_log = blob_log(image2, max_sigma=0.3*np.std(image2), num_sigma=20, threshold=threshold)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
     blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
+
     xx=(data.f.X.min(),np.round(data.f.X.max(),-1))
     yy=(data.f.Y.min(),np.round(data.f.Y.max(),-1))
     x_step=(xx[1]-xx[0])/np.shape(H1)[0]
@@ -92,7 +93,7 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,f
                     dh=yy[1]-yy[0], dw=xx[1]-xx[0], x=xx[0], y=xx[0])
         p1.add_layout(color_bar, 'right')
         if i == 2:
-            p1.circle(blobs[:,1]*x_step+xx[0], blobs[:,0]*y_step+yy[0], size=blobs[:,2]*4, line_color='red',alpha=1.0, line_width=3,fill_color=None)
+            p1.circle(blobs[:,1]*x_step+xx[0], blobs[:,0]*y_step+yy[0], radius=blobs[:,2]*1.6, radius_dimension='y', line_color='red',alpha=1.0, line_width=3,fill_color=None)
 
         p1.title.text_font_size = '20pt'
         p1.xaxis.axis_label_text_font_size = "14pt"
