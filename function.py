@@ -95,9 +95,9 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,f
         if i == 2:
             p1.circle(blobs[:,1]*x_step+xx[0], blobs[:,0]*y_step+yy[0], radius=blobs[:,2]*1.6, radius_dimension='y', line_color='red',alpha=1.0, line_width=3,fill_color=None)
 
-        p1.title.text_font_size = '20pt'
-        p1.xaxis.axis_label_text_font_size = "14pt"
-        p1.yaxis.axis_label_text_font_size = "14pt"
+        p1.title.text_font_size = '14pt'
+        p1.xaxis.axis_label_text_font_size = "13pt"
+        p1.yaxis.axis_label_text_font_size = "13pt"
 
 
 

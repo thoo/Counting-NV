@@ -17,7 +17,7 @@
   <h4> Counting Nitrogen Vacancy Centers from 2D Density Plot</h4>
   <hr>
   <h5> Import Data File  </h5>
-  <h6> The imported data file has to be in <b>.npz</b> format with three keys  <b>'X'</b> , <b>'Y'</b> and <b>'image'</b>. 'X' and 'Y' are the coordiantes of the scanning region and 'image' is the intensity at each X and Y coordinates. </h6> 
+  <h6> The imported data file has to be in <b>.npz</b> format with three keys  <b>'X'</b> , <b>'Y'</b> and <b>'image'</b>. 'X' and 'Y' are the coordiantes of the scanning region and 'image' is the intensity at each X and Y coordinates. </h6>
 
 
 
@@ -74,9 +74,15 @@
 <p>
 
 <!-- script and div elements for Bokeh plot -->
+
 {% for item in result[1:] %}
-{{ item[0]|safe }}
-{{ item[1]|safe }}
+    {% if loop.first %}<div class="row">{% endif %}
+    <div class="col-sm-6">
+      {{ item[0]|safe }}
+      {{ item[1]|safe }}
+        </div>
+    {% if loop.index is divisibleby 2 %}</div><p><hr style="width: 100%; color: grey; height: 0.5px; background-color:grey;" /></p> <p></p><div class="row">{% endif %}
+    {% if loop.last %}</div>{% endif %}
 {% endfor %}
 </p>
 {% endif %}
