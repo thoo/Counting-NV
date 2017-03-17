@@ -30,15 +30,18 @@ Bokeh.set_log_level("info");
 """
 
 
-def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,factor=0.06):
+def GDP_PCA_plot(filename=None,threshold=0.015,lowerbound=2.0,upperbound=1.0e4,factor=0.08):
     data = np.load('uploads/'+filename)
 
 
     image1=data.f.image#-np.median(data.f.image)
     image2=np.array(image1*255/image1.max(),dtype='uint8')
+    image_avg=np.mean(np.partition(image2,int(len(image2)*0.2)))
+    image2[image2 < image_avg] = int(image_avg)
     #H1=cv2.GaussianBlur(image2,(3,3),1.0*np.std(image2))
     H1 = gaussian_filter(image2,factor*np.std(image2), mode='nearest')
-    blobs_log = blob_log(image2, max_sigma=0.3*np.std(image2), num_sigma=20, threshold=threshold)
+    image2=H1
+    blobs_log = blob_log(image2, max_sigma=0.3*np.std(image2), min_sigma=0.02*np.mean(image2), num_sigma=20, threshold=threshold,overlap=0.6)
     blobs_log[:, 2] = blobs_log[:, 2] * np.sqrt(2)
     blobs=blobs_log[(blobs_log[:,2]>lowerbound) & (blobs_log[:,2]< upperbound)]
 
@@ -75,9 +78,9 @@ def GDP_PCA_plot(filename=None,threshold=0.025,lowerbound=2.5,upperbound=1.0e4,f
     ##################################################################
     for i in range(3):
         color_mapper = LogColorMapper(palette=color_list[i], \
-                              low=np.median(data_list[i]), \
+                              low=np.mean(data_list[i]), \
                               high=1.0*np.mean(data_list[i])+\
-                              3.0*np.std(data_list[i]))
+                              2.0*np.std(data_list[i]))
 
 
         color_bar = ColorBar(color_mapper=color_mapper,\

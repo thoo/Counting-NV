@@ -42,7 +42,7 @@ def allowed_file(filename):
 def index():
 
     form = UploadForm()
-    filename = 'image004.npz'
+    filename = 'image005.npz'
 
     if request.method == 'POST' and form.validate_on_submit():
 
@@ -63,4 +63,4 @@ def index():
                            result=result)
 
 if __name__ == '__main__':
-    app.run(port=33035,debug=True)
+    app.run(port=33035,debug=False)
