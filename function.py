@@ -89,7 +89,7 @@ def GDP_PCA_plot(filename=None,threshold=0.015,lowerbound=2.0,upperbound=1.0e4,f
                               location=(0,0))
 
 
-        p1 = figure(plot_width=600, plot_height=600,title=t[i],\
+        p1 = figure(plot_width=600, plot_height=600,title=t[i],title_text_font_size='12pt',\
                     x_range=xx,y_range=xx,tools=TOOLS,toolbar_location="below",toolbar_sticky=False,responsive=True)
         p1.square(x1,y1,alpha=1.0)
         p1.image(image=[data_list[i]],color_mapper=color_mapper,
@@ -98,7 +98,7 @@ def GDP_PCA_plot(filename=None,threshold=0.015,lowerbound=2.0,upperbound=1.0e4,f
         if i == 2:
             p1.circle(blobs[:,1]*x_step+xx[0], blobs[:,0]*y_step+yy[0], radius=blobs[:,2]*1.6, radius_dimension='y', line_color='red',alpha=1.0, line_width=3,fill_color=None)
 
-        p1.title.text_font_size = '14pt'
+        p1.title.text_font_size = "12pt"
         p1.xaxis.axis_label_text_font_size = "13pt"
         p1.yaxis.axis_label_text_font_size = "13pt"
 
