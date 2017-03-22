@@ -56,7 +56,7 @@ def GDP_PCA_plot(filename=None,threshold=0.015,lowerbound=2.0,upperbound=1.0e4,f
     total=len(blobs)
     per_nv=round(len(blobs)/float(height*width)*(20*20),2)
     ########################################################
-    t=['Filename = '+filename+' : Original Density Plot','Gaussian Filtered Density Plot','Total NVs = '+str(total)+'  , NVs per 20x20 pixel area = '+str(per_nv)]
+    t=['Original Density Plot,'  ' Filename='+filename,'Gaussian Filtered Density Plot','Total NVs ='+str(total) +' , NVs per 20x20 pixel area = '+str(per_nv)]
 
     data_list=[image1,H1,H1]
     color_list=[Viridis256,cc.b_linear_bgy_10_95_c74,cc.b_linear_bgy_10_95_c74]
@@ -98,7 +98,7 @@ def GDP_PCA_plot(filename=None,threshold=0.015,lowerbound=2.0,upperbound=1.0e4,f
         if i == 2:
             p1.circle(blobs[:,1]*x_step+xx[0], blobs[:,0]*y_step+yy[0], radius=blobs[:,2]*1.6, radius_dimension='y', line_color='red',alpha=1.0, line_width=3,fill_color=None)
 
-        p1.title.text_font_size = "12pt"
+        p1.title.text_font_size = "11pt"
         p1.xaxis.axis_label_text_font_size = "13pt"
         p1.yaxis.axis_label_text_font_size = "13pt"
 
