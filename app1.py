@@ -37,7 +37,7 @@ def allowed_file(filename):
 
 
 
-@app.route('/checknv', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 
 def index():
 
@@ -63,4 +63,4 @@ def index():
                            result=result)
 
 if __name__ == '__main__':
-    app.run(port=33035,debug=False)
+    app.run(port=33036,debug=True)
